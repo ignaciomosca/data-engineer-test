@@ -18,12 +18,11 @@ object OddOccurrencesCount {
       .getOrCreate()
 
     // set credentials for S3 access
-    // val credentials = Credentials.fetchCredentials(awsProfile)
-    // sc.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", credentials.getCredentials.getAWSAccessKeyId)
-    // sc.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", credentials.getCredentials.getAWSSecretKey)
+    val credentials = Credentials.fetchCredentials(awsProfile)
+    sc.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", credentials.getCredentials.getAWSAccessKeyId)
+    sc.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", credentials.getCredentials.getAWSSecretKey)
 
-    sc
-      .read
+    sc.read
       .option("header", value = true)
       .option("delimiter", "\t")
       .schema(keyValueSchema)

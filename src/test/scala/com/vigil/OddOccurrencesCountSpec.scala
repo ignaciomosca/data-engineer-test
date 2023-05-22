@@ -9,21 +9,14 @@ import org.scalatest.matchers.should.Matchers
 import java.nio.file.Paths
 class OddOccurrencesCountSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll {
 
-  val sourcePath = "src/test/resources/source"
-  val resultPath = "src/test/resources/result"
-  val awsProfile = "default"
-  val sourcePathCsv = Paths.get(sourcePath, "source.csv")
-  val sourcePathTsv = Paths.get(sourcePath, "source.tsv")
+  private val sourcePath = "src/test/resources/source"
+  private val resultPath = "src/test/resources/result"
+  private val awsProfile = "default"
 
   private var sc: SparkSession = _
 
-  override def beforeAll(): Unit = {
-    sc = SparkSession
-      .builder()
-      .master("local[*]")
-      .appName("OddOccurrencesCountTest")
-      .getOrCreate()
-  }
+  override def beforeAll(): Unit =
+    sc = SparkSession.builder().master("local[*]").appName("OddOccurrencesCountTest").getOrCreate()
 
   override def afterAll(): Unit = {
     sc.stop()
@@ -39,9 +32,8 @@ class OddOccurrencesCountSpec extends AnyFlatSpec with Matchers with BeforeAndAf
     OddOccurrencesCount.main(Array(sourcePath, resultPath, awsProfile))
 
     // read the result data from the output files
-    val resultData = sc
-      .read
-      .option("header", "false")
+    val resultData = sc.read
+      .option("header", value = false)
       .option("delimiter", "\t")
       .schema(keyValueSchema)
       .csv(s"$resultPath/part*")

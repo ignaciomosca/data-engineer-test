@@ -15,3 +15,5 @@ project/boot/
 
 /metastore_db/
 derby.log
+
+.env
