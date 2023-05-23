@@ -49,11 +49,19 @@ Then in spark local mode the app should write file(s) to the output S3 path in T
 
 ## How to run it
 
+### Locally
+
 ```agsl
 sbt assembly
 cd target/scala-2.12
 java -jar data-engineer-test-assembly-0.0.1.jar s3a://testdataignaciomosca/source.csv s3a://testdataignaciomoscaoutput/out default
 ```
+
+### EMR
+
+spark-submit data-engineer-test-assembly-0.0.1.jar s3a://testdataignaciomosca/source.csv s3a://testdataignaciomoscaoutput/out default
+
+
 
 ## Bonus 1
 
