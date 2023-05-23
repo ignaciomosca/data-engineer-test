@@ -5,7 +5,7 @@ version := "0.0.1"
 scalaVersion := "2.12.12"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-sql" % "3.3.2" % "provided",
+  "org.apache.spark" %% "spark-sql" % "3.3.2",
   "org.apache.spark" %% "spark-core" % "3.3.2",
   "org.apache.spark" %% "spark-hadoop-cloud" % "3.3.2",
   "com.github.mrpowers" %% "spark-daria" % "1.2.3",
@@ -22,6 +22,11 @@ javaOptions ++= Seq("-Xms512M", "-Xmx2048M", "-XX:MaxPermSize=2048M", "-XX:+CMSC
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
 
 enablePlugins(AssemblyPlugin)
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", _*) => MergeStrategy.discard
+  case _                        => MergeStrategy.first
+}
 
 // JAR file settings
 

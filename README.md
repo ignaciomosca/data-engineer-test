@@ -47,6 +47,14 @@ Then in spark local mode the app should write file(s) to the output S3 path in T
 * The second column contains the integer occurring an odd number of times for the key, as described by 6 above
 * NOTE: If your CV doesn’t mention AWS you can assume local filesystem and not bother with the S3 stuff.
 
+## How to run it
+
+```agsl
+sbt assembly
+cd target/scala-2.12
+java -jar data-engineer-test-assembly-0.0.1.jar s3a://testdataignaciomosca/source.csv s3a://testdataignaciomoscaoutput/out default
+```
+
 ## Bonus 1
 
 This is a bonus and entirely optional. If you have already spent a long time on the above, it’s recommended you skip this as we do not want to
