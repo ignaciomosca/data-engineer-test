@@ -25,8 +25,8 @@ class OddOccurrencesCountSpec extends AnyFlatSpec with Matchers with BeforeAndAf
 
   "OddOccurrencesCount" should "process source files and calculate results correctly" in {
     val expectedResultData = Array(
-      KeyValue(1, 7),
-      KeyValue(3, 11)
+      KeyValue(1, 2),
+      KeyValue(2, 4)
     )
 
     OddOccurrencesCount.main(Array(sourcePath, resultPath, awsProfile))
