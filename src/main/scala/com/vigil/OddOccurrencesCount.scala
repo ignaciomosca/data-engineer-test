@@ -27,7 +27,7 @@ object OddOccurrencesCount {
     sc.sparkContext.hadoopConfiguration.set("fs.s3a.endpoint", "s3.us-east-2.amazonaws.com")
 
     //dataframeSolution(inputS3Path, outputS3Path, sc)
-    sqlSolution(inputS3Path, outputS3Path, sc)
+    sparkSQL(inputS3Path, outputS3Path, sc)
 
   }
 
@@ -57,7 +57,7 @@ object OddOccurrencesCount {
       .csv(outputS3Path)
   }
 
-  private def sqlSolution(inputS3Path: String, outputS3Path: String, sc: SparkSession): Unit = {
+  private def sparkSQL(inputS3Path: String, outputS3Path: String, sc: SparkSession): Unit = {
     // Read the input files as a DataFrame
     val inputDF = sc.read
       .option("header", "true")

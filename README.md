@@ -52,6 +52,47 @@ Then in spark local mode the app should write file(s) to the output S3 path in T
 This is a bonus and entirely optional. If you have already spent a long time on the above, it’s recommended you skip this as we do not want to
 consume too much time of the candidates.Provide more than one implementation of the algorithm, and as comments discuss the time & space complexity.
 
+---
+
+### `dataframeSolution` Analysis
+
+#### Time Complexity:
+
+**Reading Input Files** The time complexity of reading the input files depends on the number of files and the size of each file. Let's assume there are n input files and the average size of each file is m. In this case, the time complexity is O(n * m).
+
+**Replacing Empty Strings** The operation to replace empty strings with 0 in the value column is performed on the DataFrame. It operates on each row individually, so the time complexity is O(N), where N is the total number of rows in the DataFrame.
+
+**Grouping and Counting** The grouping and counting operation is performed on the DataFrame. It involves shuffling and aggregation, which has a time complexity of O(N), where N is the total number of rows in the DataFrame.
+
+**Filtering Odd Counts** The operation to filter out values with even counts is performed on the DataFrame. It operates on each row individually, so the time complexity is O(N), where N is the number of rows in the DataFrame.
+
+**Selecting Columns** The operation to select the key and value columns is performed on the DataFrame. It operates on each row individually, so the time complexity is O(N), where N is the number of rows in the DataFrame.
+
+**Writing Output** The time complexity of writing the output DataFrame as TSV files depends on the number of partitions and the size of each partition. Let's assume there are p partitions and the average size of each partition is q. In this case, the time complexity is O(p * q).
+
+Overall, the dominant time complexity is determined by the steps involving reading the input files and writing the output files. The other operations have a linear time complexity based on the number of rows in the DataFrame.
+
+#### Space Complexity:
+
+**Input Files** The space complexity for reading the input files depends on the total size of the input data. It requires enough memory to hold the data while processing.
+
+**DataFrame** The space complexity for the DataFrame depends on the number of columns and the number of rows. It requires memory to store the schema, column data, and any intermediate data during processing. The space complexity is typically determined by the size of the largest partition.
+
+**Output Files** The space complexity for writing the output files depends on the total size of the output data. It requires memory to buffer and write the data.
+
+Overall, the space complexity is primarily determined by the size of the input and output data. The DataFrame and any intermediate data during processing also contribute to the memory usage.
+
+<br>
+
+---
+### `sparkSQL` Analysis
+
+**Time Complexity** The time complexity of this implementation depends on the size of the input data and the number of unique key-value pairs. The SQL query performs a group by operation, which requires shuffling and sorting the data. Thus, the time complexity can be considered O(n log n), where n is the total number of records in the input data.
+
+**Space Complexity** The space complexity of this implementation is primarily determined by the intermediate data structures created during the SQL query execution. The space required will depend on the number of unique key-value pairs and the number of odd occurrences. Additionally, Spark SQL might use additional memory for shuffling and sorting operations. Overall, the space complexity can be considered O(k + m), where k is the number of unique key-value pairs and m is the number of odd occurrences.
+
+---
+
 ## Bonus 2
 
 This is a bonus and entirely optional. If you have already spent a long time on the above, it’s recommended you skip this as we do not want to
