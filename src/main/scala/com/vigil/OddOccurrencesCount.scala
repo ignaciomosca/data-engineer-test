@@ -21,8 +21,10 @@ object OddOccurrencesCount {
     val credentials = Credentials.fetchCredentials(awsProfile)
     sc.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", credentials.getCredentials.getAWSAccessKeyId)
     sc.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", credentials.getCredentials.getAWSSecretKey)
+    sc.sparkContext.hadoopConfiguration.set("fs.s3a.endpoint", "s3.us-east-2.amazonaws.com")
 
-    sc.read
+
+    val result = sc.read
       .option("header", value = true)
       .option("delimiter", "\t")
       .schema(keyValueSchema)
@@ -33,7 +35,16 @@ object OddOccurrencesCount {
       .agg(sum("value").alias("result")) // sum the values for each key and put them in the result column
       .where(col("result") % 2 =!= 0) // filter out even results
       .select("key", "result")
-      .write
+
+    val bla = sc.read
+      .option("header", value = true)
+      .option("delimiter", "\t")
+      .schema(keyValueSchema)
+      .csv(inputS3Path)
+      .collect()
+
+      result
+        .write
       .option("delimiter", "\t")
       .csv(outputS3Path)
   }
